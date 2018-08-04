@@ -50,7 +50,7 @@ $(document).ready(fnObj.pageStart);
 </head>
 <body>
 <table>
-<div id="AXGridTarget" style="height:300px;"></div>
+<div id="AXGridTarget" style="height:500px;"></div>
 </table>
 </body>
 </html>
