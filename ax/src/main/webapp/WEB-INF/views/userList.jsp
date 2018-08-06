@@ -30,7 +30,17 @@ var fnObj = {
 				],				
 				body: {
 					onclick: function(){
-						toast.push(Objedct.toJSON(this.item));
+						var itemHtml  = "<table width=\"200\">";
+						    itemHtml += "<tr><td>번호:</td>";
+						    itemHtml += "<td>"+ this.item.no +"</td>";
+						    itemHtml += "</tr>";
+						    itemHtml += "<tr>";
+						    itemHtml += "<td>아이디</td>";
+						    itemHtml += "<td>"+ this.item.id +"</td>";
+						    itemHtml += "</tr>";
+						    itemHtml += "</table>";
+						//toast.push(Object.toJSON(this.item));
+						toast.push(itemHtml);
 					}
 				}
 			});
