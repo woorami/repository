@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.common.collect.Lists;
+import com.hooni0131.ax.constants.ConstantsController;
 import com.hooni0131.ax.user.dto.UserDTO;
 import com.hooni0131.ax.user.service.UserService;
+import com.hooni0131.ax.util.FileReadAndSave;
 
 @Controller
 public class UserController {
@@ -26,7 +28,7 @@ public class UserController {
 	@Inject
 	private UserService service;
 	
-private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	public String userList(HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -39,6 +41,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 			logger.debug("userList:"+ userList.size());
 			
 			model.addAttribute("list", userList);
+			
 			/*JSONObject obj = new JSONObject();
 			obj.put("list", userList);
 			obj.put("result", "ok");
@@ -51,7 +54,7 @@ private static final Logger logger = LoggerFactory.getLogger(UserController.clas
 			e.printStackTrace();
 		}
 			
-		return "userList";
+		return ConstantsController.USER_LIST;
 	}
 	
 	
