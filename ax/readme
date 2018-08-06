@@ -1,0 +1,16 @@
+ 1) remote 에서 clone repository를 통해 로컬에 저장소를 복사 한다.
+ 2) 복사된 Local Repository의 Working Tree에서 프로젝트를 선택하고, 마우스 우측 버튼 클릭을 통해 Import Project를 실행 한다.
+ 3) 생성된 프로젝르를 Refresh 하면 프로젝트가 생성되고, 서버에 등록한다.
+ 
+ 
+ GIT
+  1) Git Repisotories 의 Remote Tracking에서 Remote Branch를 Local Branches에 checkout 한다.
+  2) Local Branches의 소스를 수정하고, Add Index를 하고, Commit하면 Local Branch에 해당 내용이 적용 된다.
+  3) Local Branches를 Push하면 Remmote Tracking의 Branch에 적용되고, GitHub Remote Server의 해당 브랜치에 해당 내용이 Commit 된다.
+  4) GitHub에서 소스 확인 후, Comment Commit -> Merge하면 해당 브랜치에 최종 적용 된다.
+  
+  5) Remote 로컬 Branch에 적용하기
+     Remote Tracking의 origin/step1(작업 브랜치) 선택 후, 마우스 우측에서 Synchronize with workspace선택하면 브랜치 옆의 상태가 Remote상태로 변경 되고, Synchronize View로 이동
+     Pull로 Remote의 소스를 Local Remote Tracking Branch 에 동기화
+     Local Branch로 checkout 하고, 마우스 우측 클릭 후, Merge를 실행하면 Remote Branch의 소스가 Local Branch에 적용 된다.
+     
