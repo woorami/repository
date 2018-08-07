@@ -17,8 +17,8 @@ public class OrderServiceImpl implements OrderService {
 	@Inject
 	OrderDao orderDao;
 	
+	@Override
 	public List<OrderDTO> list(HashMap<String, Object> param) throws Exception {
 		return orderDao.list(param); 
 	}
-
 }
