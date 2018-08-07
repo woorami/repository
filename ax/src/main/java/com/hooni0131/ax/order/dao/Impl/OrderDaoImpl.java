@@ -17,8 +17,10 @@ public class OrderDaoImpl implements OrderDao {
 	@Inject
 	SqlSession session;
 
+	@Override
 	public List<OrderDTO> list(HashMap<String, Object> params) throws Exception{
 		
-		return session.selectList("mapper.ordermanage.orderList","");
+		return session.selectList("mapper.ordermanage.orderList", params);
 	}
+	
 }

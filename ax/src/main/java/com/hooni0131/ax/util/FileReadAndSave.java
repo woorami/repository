@@ -10,6 +10,9 @@ import java.io.IOException;
 
 public class FileReadAndSave {
 
+	/**
+	 * 파일을 읽어서 다시 쓰기
+	 */
 	public void getRead() {
 	
 		String path = "C:\\handsome\\Apache Software Foundation\\Tomcat 8.0\\logs";

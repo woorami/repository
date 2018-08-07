@@ -2,10 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="usermanager">
 
+
     <select id="userList" resultType="com.hooni0131.ax.user.dto.UserDTO">
+    <![CDATA[
         SELECT P_UID
               ,P_NAME
               ,LEFT(CREATEDTS, 10)
           FROM USERS
+    ]]>          
+    </select>
+
+    <!-- 를XML 로ㅅㅎ기 기하 한리 리-->
+    <select id="userListXml" resultType="java.util.HashMap" parameterType="java.util.HashMap">
+        <![CDATA[
+        SELECT P_UID AS 1_ID,
+               P_NAME AS 2_NAME, 
+               PASSWD AS 3_PASSWD, 
+               LEFT(CREATEDTS, 10) AS 4_CREATEDTS, 
+               LEFT(P_LASTLOGIN, 10) AS 5_LASTLOGIN
+          FROM USERS
+        ]]>
     </select>
 </mapper>
