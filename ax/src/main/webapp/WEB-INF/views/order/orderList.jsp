@@ -17,37 +17,57 @@
 <script type="text/javascript" src="/ax/resources/js/ax/AXJ.js"></script>
 <script type="text/javascript" src="/ax/resources/js/ax/AXSelect.js"></script>
 <script type="text/javascript" src="/ax/resources/js/ax/AXGrid.js"></script>
+
 <script type="text/javascript">
 var myGrid = new AXGrid();
 var alignStr = "center";
-var widthStr = "100";
+var widthStr = "150";
 var fnObj = {
 		pageStart: function() {
 			myGrid.setConfig({
 				targetID: "AXGridTarget",
-				colGroup: [					
-					{key:"p_baseprice", label:"원가", width: widthStr, align: alignStr },
-					{key:"p_entrynumber", label:"주문번호", width: widthStr, align: alignStr },
+				colGroup: [
+					{key:"p_baseprice_sel", label:"지역", width: widthStr, align: alignStr, formatter:function() {
+						var str =  "<select id=\"area\" name=\"area\">";
+						    str += "  <option value=\"\">선택</option>";
+						    str += "  <option value=\"1\">서울</option>";
+						    str += "  <option value=\"2\">경기도</option>";
+						    str += "</select>";
+						return str;						
+					}},
+					{key:"p_baseprice", label:"원가", width: widthStr, align: alignStr, formatter:function() {
+						return "<input type=\"text\" id=\"baseprice\" name=\"baseprice\" value=\""+ this.item.p_baseprice.money() +"\" style=\"width:100px;\"/>";
+					}},
+					{key:"p_entrynumber", label:"주문번호", width: widthStr, align: alignStr, formatter:"number" },
 					{key:"p_info", label:"기타", width: widthStr, align: alignStr },
-					{key:"createdTS", label:"주문일", width: widthStr, align: alignStr },
+					{key:"createdTS", label:"주문일", width: widthStr, align: alignStr, formatter:function() {
+						return this.item.createdTS.substr(0,4) +"-"+ this.item.createdTS.substr(5,2) +"-"+ this.item.createdTS.substr(8,2);
+					}},
 					{key:"modifiedTS", label:"수정일", width: widthStr, align: alignStr },
 					{key:"p_product", label:"주문상품정보", width: widthStr, align: alignStr },
-					{key:"p_quantity", label:"수량", width: widthStr, align: alignStr },
-					{key:"p_totalprice", label:"총판매금액", width: widthStr, align: alignStr },
+					{key:"p_quantity", label:"수량", width: widthStr, align: alignStr, formatter:function(){
+						return this.item.p_quantity.number();	
+					}},
+					{key:"p_totalprice", label:"총판매금액", width: widthStr, align: alignStr, formatter:function(){
+						return this.item.p_totalprice.money() +" 원";	
+					}},
 					{key:"p_unit", label:"단위", width: widthStr, align: alignStr },
 					{key:"accumulationpoint", label:"포인트", width: widthStr, align: alignStr },
 					{key:"usepoint", label:"사용포인트", width: widthStr, align: alignStr },
-					{key:"usegiftamount", label:"기프트카드", width: widthStr, align: alignStr },
+					{key:"usegiftamount", label:"기프트카드", width: widthStr, align: alignStr, formatter:function(){
+						return "<input type=\"text\" id=\"usegiftamount\" name=\"usegiftamount\" value=\""+ (this.item.usegiftamount).number() +"\" style=\"width:100px;\"/>";
+					}},
 					{key:"coupondiscountamount", label:"쿠폰하린", width: widthStr, align: alignStr },
 					{key:"accumulationrate", label:"비율", width: widthStr, align: alignStr },
 					{key:"warehousestockquantity", label:"창고재고수량", width: widthStr, align: alignStr },
 					{key:"lgdamount", label:"데이콘수량", width: widthStr, align: alignStr },
 					{key:"originalquantity", label:"원부누수량", width: widthStr, align: alignStr },
 					{key:"saleyn", label:"할인", width: widthStr, align: alignStr }
-				],				
+				],
 				body: {
 					onclick: function(){
-						toast.push(Object.toJSON(this.item));
+						//toast.push({type:"Warning", body: Object.toJSON(this.item)});
+						toast.push({type:"Caution", body: Object.toJSON(this.item)});
 					}
 				}
 			});

@@ -16,12 +16,15 @@
 <script type="text/javascript" src="/ax/resources/js/ax/AXJ.js"></script>
 <script type="text/javascript" src="/ax/resources/js/ax/AXSelect.js"></script>
 <script type="text/javascript" src="/ax/resources/js/ax/AXGrid.js"></script>
+<script type="text/javascript" src="/ax/resources/js/ax/AXModal.js"></script>
 <script type="text/javascript">
 var myGrid = new AXGrid();
 var fnObj = {
 		pageStart: function() {
 			myGrid.setConfig({
 				targetID: "AXGridTarget",
+				sort: true,
+				viewMode: "grid", // grid, icon, mobile
 				colGroup: [
 					{key:"no", label:"번호", width:"100", align:"center"},
 					{key:"id", label:"아이디", width:"200", align:"center"},
@@ -56,11 +59,39 @@ var fnObj = {
 		}
 	}
 $(document).ready(fnObj.pageStart);
+
+(function(){
+	var myModal = new AXModal();
+	myModal.setConfig({
+		windowID: "myModalCT", width: 740, mediaQuery: { // 모발창 반응형 조건 - 필수조건 아님
+			mx:{min:0, max:767}, dx:{min:767}
+		},
+		displayLoading: true, // 로딩바 표시 여부
+		scrollLock: true, // 모달창이 열렸을 때 페이지 스크롤 금지 옵션
+		onclose: function(){
+			toast.push("모달창 닫기");
+		}
+	});
+
+	$("#ui-modal-iframe-open").click(function() {
+		console.log("1");
+		myModal.open({
+			method: "GET",
+			url:"/order/orderList",
+			pars:"",
+			closeByEscKey: true // 모달창이 열렸을때 ESC키로 모달창 닫기 옵션
+		});
+	});
+})()
 </script>
 </head>
 <body>
 <table>
 <div id="AXGridTarget" style="height:500px;"></div>
+
+<div class="target-result">
+	<button class="AxButton" id="ui-modal-iframe-open">모달창 열기</button>
+</div>
 </table>
 </body>
 </html>
