@@ -110,12 +110,13 @@
 		</dependency>
 	
 		<!-- Test -->
-		<!-- <dependency>
+		<!-- JUnit 4.4 버전을 사용하면  @RunWith(SpringJUnit4ClassRunner.class) 에서 Type mismatch: cannot convert from Class<SpringJUnit4ClassRunner> to Class<? extends Runner> 오류 발생-->
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.4</version>
+			<version>4.5</version>
 			<scope>test</scope>
-		</dependency> -->
+		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 		<dependency>
@@ -193,13 +194,16 @@
     <version>2.3.0</version>
 </dependency>
 		
-		
+		<!-- 스프링에서 JUnit 테스트를 하기 위해 필요한 라이브버리 -->
+<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
 <dependency>
     <groupId>org.springframework</groupId>
     <artifactId>spring-test</artifactId>
-    <version>5.0.8.RELEASE</version>
+    <version>${org.springframework-version}</version>
     <scope>test</scope>
 </dependency>
+
+
 		
 <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 <dependency>

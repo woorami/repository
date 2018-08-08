@@ -1,35 +1,64 @@
 package com.hooni0131.ax;
 
-import static org.junit.Assert.fail;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.annotation.Configuration;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.collect.Lists;
+import com.hooni0131.ax.user.dto.UserDTO;
 
-@Configuration(value = "file:src/main/webapp/WEB-INF/spring/root-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/*.xml"})
 public class DBTest {
 
+	private static final Logger logger = LoggerFactory.getLogger(DBTest.class);
+	
 	@Inject
 	private SqlSession sqlSession;
 	
+	private String id = "";
+	private String name = "";
+	
+	@Before
+	public void setData() {
+		if(logger.isInfoEnabled()) {
+			logger.info("DATA SET");
+		}
+
+		this.id = "aaa";
+		this.name = "¿Ã∏ß";
+	}
 	@Test
 	public void test() {
 		
-		List<String> userList = Lists.newArrayList();		
+		List<UserDTO> userList = Lists.newArrayList();		
 		
-		System.out.println(" sqlSession:"+ sqlSession);
-		userList = sqlSession.selectList("user.userList");
+		logger.info(" sqlSession:"+ sqlSession);
+		logger.info(" id:"+ this.id);
+		logger.info(" name:"+ this.name);
+		userList = sqlSession.selectList("mapper.usermanager.userList");
+		logger.info(" userList.size();:"+ userList.size());
 		
-		for(String result: userList) {
-			System.out.println(" result:"+ result);
+		for(UserDTO result: userList) {
+			logger.info("id:"+ result.getP_uid());
 		}
-		fail("Not yet implemented");
-	}
 
+	}
+	
+	
+	@After
+	public void close() {
+		logger.info(" TEST closed");
+	}
 }

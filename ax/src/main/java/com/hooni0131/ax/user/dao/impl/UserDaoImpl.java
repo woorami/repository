@@ -11,26 +11,26 @@ import org.springframework.stereotype.Repository;
 import com.hooni0131.ax.user.dao.UserDao;
 import com.hooni0131.ax.user.dto.UserDTO;
 
-@Repository // DAO관련 애노테이션
+@Repository // DAO愿��젴 �븷�끂�뀒�씠�뀡
 public class UserDaoImpl implements UserDao {
 
 	@Inject
 	SqlSession sqlSession;
 	
 	/**
-	 * 회웜 목록
+	 * �쉶�썫 紐⑸줉
 	 */
 	@Override
 	public List<UserDTO> selectList() {		
-		return sqlSession.selectList("usermanager.userList");		
+		return sqlSession.selectList("mapper.usermanager.userList");		
 	}
 	
 	/**
-	 * 회원 목록을 XML로 생성하기
+	 * �쉶�썝 紐⑸줉�쓣 XML濡� �깮�꽦�븯湲�
 	 */
 	@Override
 	public List<HashMap<String, Object>> selectListXml(HashMap<String, Object> params) throws Exception {
 		
-		return sqlSession.selectList("usermanager.userListXml", params);
+		return sqlSession.selectList("mapper.usermanager.userListXml", params);
 	}
 }
