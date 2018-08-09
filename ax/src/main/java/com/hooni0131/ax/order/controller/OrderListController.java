@@ -47,4 +47,23 @@ public class OrderListController {
 		
 		return ConstantsController.ORDER_LIST;		
 	}
+	
+	@RequestMapping( value = {"/order/orderDetail", "/orderDetail"}, method = {RequestMethod.GET, RequestMethod.POST})
+	public String orderDetail(HttpServletRequest request, HttpServletResponse response, Model model) {
+		
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		OrderDTO detail = new OrderDTO();
+		
+		try {
+			
+			detail = orderService.detail(params);
+			
+		} catch (Exception e) {
+			logger.error("error:"+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return ConstantsController.ORDER_DETAIL;
+	
+	}
 }

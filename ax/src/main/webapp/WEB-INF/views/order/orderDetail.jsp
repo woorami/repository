@@ -29,7 +29,6 @@ var fnObj = {
 			myGrid.setConfig({
 				targetID: "AXGridTarget",
 				colGroup: [
-					{key:"seq", label:"고유번호", width: widthStr, align: alignStr},
 					{key:"p_baseprice_sel", label:"지역", width: widthStr, align: alignStr, formatter:function() {
 						var str =  "<select id=\"area\" name=\"area\">";
 						    str += "  <option value=\"\">선택</option>";
@@ -89,11 +88,10 @@ var fnObj = {
 							}						
 						});
 						
-							console.log(this.item);
 						axModal.open({
 							url: "/ax/order/orderDetail",
 							method: "GET",
-							pars:"pk="+ this.item.PK,
+							pars:"pk="+ this.item.pk,
 							name:"myModal",
 							options:"width=600,height=400,resizable=yes"
 						});

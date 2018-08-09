@@ -2,6 +2,8 @@ package com.hooni0131.ax.order.dto;
 
 public class OrderDTO {
 
+	private String PK;	
+	private String seq;
 	private String p_baseprice;
 	private String p_entrynumber;
 	private String p_info;
@@ -20,6 +22,21 @@ public class OrderDTO {
 	private String lgdamount;
 	private String originalquantity;
 	private String saleyn;
+	
+	
+	public String getPK() {
+		return PK;
+	}
+	public void setPK(String PK) {
+		this.PK = PK;
+	}
+	
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
 	public String getP_baseprice() {
 		return p_baseprice;
 	}

@@ -16,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.collect.Lists;
+import com.hooni0131.ax.order.dto.OrderDTO;
 import com.hooni0131.ax.user.dto.UserDTO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -37,9 +38,9 @@ public class DBTest {
 		}
 
 		this.id = "aaa";
-		this.name = "ÀÌ¸§";
+		this.name = "ï¿½Ì¸ï¿½";
 	}
-	@Test
+/*	@Test
 	public void test() {
 		
 		List<UserDTO> userList = Lists.newArrayList();		
@@ -54,8 +55,20 @@ public class DBTest {
 			logger.info("id:"+ result.getP_uid());
 		}
 
-	}
+	}*/
 	
+	
+	@Test
+	public void orderList() {
+		
+		List<OrderDTO> orderList = Lists.newArrayList();
+		
+		orderList = sqlSession.selectList("mapper.ordermanage.orderList");
+		
+		for(OrderDTO result: orderList) {
+			logger.info("seq:"+ result.getSeq());
+		}
+	}
 	
 	@After
 	public void close() {

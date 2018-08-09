@@ -23,4 +23,9 @@ public class OrderDaoImpl implements OrderDao {
 		return session.selectList("mapper.ordermanage.orderList", params);
 	}
 	
+	
+	@Override
+	public OrderDTO detail(HashMap<String, Object> params) throws Exception {
+		return session.selectOne("mapper.ordermanager.orderDetail", params);
+	}
 }

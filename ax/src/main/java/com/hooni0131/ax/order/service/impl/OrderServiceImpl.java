@@ -21,4 +21,9 @@ public class OrderServiceImpl implements OrderService {
 	public List<OrderDTO> list(HashMap<String, Object> param) throws Exception {
 		return orderDao.list(param); 
 	}
+	
+	@Override
+	public OrderDTO detail(HashMap<String, Object> param) throws Exception {
+		return orderDao.detail(param);
+	}
 }

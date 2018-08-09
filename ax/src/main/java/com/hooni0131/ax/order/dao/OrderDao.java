@@ -12,4 +12,5 @@ public interface OrderDao {
 	
 	public List<OrderDTO> list(HashMap<String, Object> param) throws Exception;
 
+	public OrderDTO detail(HashMap<String, Object> param) throws Exception;
 }
