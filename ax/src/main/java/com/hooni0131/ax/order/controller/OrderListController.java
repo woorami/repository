@@ -53,10 +53,19 @@ public class OrderListController {
 		
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		OrderDTO detail = new OrderDTO();
+		String pk = "";
 		
 		try {
+		
+			pk = request.getParameter("seq") == null ? "" : request.getParameter("seq");
+			params.put("pk",  pk);
+			
+			logger.info(" >>>>>>>>>>>>>>>>>>>> request:"+ request.getParameter("seq"));
+			logger.info(" >>>>>>>>>>>>>>>>>>>> pk:"+ pk);
+			logger.info(" >>>>>>>>>>>>>>>>>>>> params:"+ params);
 			
 			detail = orderService.detail(params);
+			model.addAttribute("detail", detail);
 			
 		} catch (Exception e) {
 			logger.error("error:"+ e.getMessage());

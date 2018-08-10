@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+
 /**********************************************************************************************************************
 	CMS동기화때 발생되는 
 	ERROR [Thread-71] [172.168.112.147] (00007NGT) [CatalogVersionSyncJob] Cannot use target catalog version handsomeContentCatalog/Online(8796093284953) for synchronization since it owns 1 duplicate CMSItem IDs
@@ -275,7 +275,3 @@ SELECT *
     
 SELECT *
   FROM ITEMSYNCTIMESTAMPS ORDER BY CREATEDTS DESC;
-  
-  
-  
-SELECT

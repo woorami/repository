@@ -5,9 +5,35 @@
 
     <select id="orderList" resultType="com.hooni0131.ax.order.dto.OrderDTO" parameterType="java.util.HashMap">
     <![CDATA[
-        SELECT *
+        SELECT PK as seq,	
+	           p_baseprice,
+	           p_entrynumber,
+	           p_info,
+	           createdTS,
+	           modifiedTS,
+	           p_product,
+	           p_quantity,
+	           p_totalprice,
+	           p_unit,
+	           accumulationpoint,
+	           usepoint,
+	           usegiftamount,
+	           coupondiscountamount,
+	           accumulationrate,
+	           warehousestockquantity,
+	           lgdamount,
+	           originalquantity,
+	           saleyn
           FROM ORDERENTRIES
     ]]>          
     </select>
 
+
+    <select id="orderDetail" resultType="com.hooni0131.ax.order.dto.OrderDTO" parameterType="java.util.HashMap">
+    <![CDATA[
+        SELECT *
+          FROM ORDERENTRIES
+         WHERE PK = #{pk}
+    ]]>
+    </select>
 </mapper>

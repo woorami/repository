@@ -74,7 +74,7 @@ var fnObj = {
 				],
 				body: {
 					onclick: function(){
-						
+						//http://jdoc.axisj.com/document/AXModal.html
 						var axModal = new AXModal();
 						axModal.setConfig({
 							windowID: "myModal",
@@ -83,17 +83,18 @@ var fnObj = {
 								mx: {min: 0, max: 767}, dx: {min: 767}
 							},
 							displayLoading: true,
-							scrollLock: true,							
+							scrollLock: true,
+							closeButton: true, // 모달창 닫기버튼 노출 여부
 							onclose: function(){
-								trace("close bind");
+								alert("good bye!!");
 							}						
 						});
 						
 							console.log(this.item);
 						axModal.open({
 							url: "/ax/order/orderDetail",
-							method: "GET",
-							pars:"pk="+ this.item.PK,
+							pars: ("seq="+ this.item.seq).queryToObject(),
+							method: "get",
 							name:"myModal",
 							options:"width=600,height=400,resizable=yes"
 						});
@@ -122,7 +123,7 @@ var fnObj = {
 			// DATA SET
 			var list = [			
 				<c:forEach items="${orderList}" var="item" varStatus="idx">				
-				{p_baseprice:'${item.p_baseprice}', p_entrynumber:'${item.p_entrynumber}',p_info:'${item.p_info}', createdTS: '${item.createdTS}', modifiedTS:'${item.modifiedTS}', p_product:'${item.p_product}', p_quantity:'${item.p_quantity}', p_totalprice:'${item.p_totalprice}', p_unit:'${item.p_unit}', accumulationpoint:'${item.accumulationpoint}',usepoint:'${item.usepoint}', usegiftamount:'${item.usegiftamount}', coupondiscountamount: '${item.coupondiscountamount}', accumulationrate: '${item.accumulationrate}',warehousestockquantity:'${item.warehousestockquantity}', lgdamount:'${item.lgdamount}', originalquantity: '${item.originalquantity}',saleyn: '${item.saleyn}'},				
+				{seq: '${item.seq}',p_baseprice:'${item.p_baseprice}', p_entrynumber:'${item.p_entrynumber}',p_info:'${item.p_info}', createdTS: '${item.createdTS}', modifiedTS:'${item.modifiedTS}', p_product:'${item.p_product}', p_quantity:'${item.p_quantity}', p_totalprice:'${item.p_totalprice}', p_unit:'${item.p_unit}', accumulationpoint:'${item.accumulationpoint}',usepoint:'${item.usepoint}', usegiftamount:'${item.usegiftamount}', coupondiscountamount: '${item.coupondiscountamount}', accumulationrate: '${item.accumulationrate}',warehousestockquantity:'${item.warehousestockquantity}', lgdamount:'${item.lgdamount}', originalquantity: '${item.originalquantity}',saleyn: '${item.saleyn}'},				
 				</c:forEach>
 			];
 			
