@@ -28,7 +28,21 @@ var fnObj = {
 		pageStart: function() {			
 			myGrid.setConfig({
 				targetID: "AXGridTarget",
+				passiveMode: true,
 				colGroup: [
+					{key:"seq", label:"CHECK", width: widthStr, align: alignStr, formatter:"checkbox", displayLabel:true, checked:function() { // displayLabel:true => 헤드란에 체크박스를 표시할지 여부
+						//return this.index, this.item, this.list, (this.index %2 == 0);
+						return false;
+					}},
+					{key:"status", label:"상태", width: widthStr, align: alignStr, formatter:function(){
+						if( this.item._CUD == "C" ){
+							return "신규";
+						} else if( this.item._CUD == "U" ){
+							return "수정";
+						} else if( this.item._CUD == "D" ){
+							return "삭제";
+						}
+					}},
 					{key:"seq", label:"고유번호", width: widthStr, align: alignStr},
 					{key:"p_baseprice_sel", label:"지역", width: widthStr, align: alignStr, formatter:function() {
 						var str =  "<select id=\"area\" name=\"area\">";
@@ -73,7 +87,22 @@ var fnObj = {
 					}}
 				],
 				body: {
-					onclick: function(){
+					addClass: function() {
+						if( this.item._CUD == "C" ){
+							return "blue";
+						} else if( this.item._CUD == "D" ){
+							return "red";
+						} else if( this.item._CUD == "U" ){
+							return "green";
+						} else {
+							return "";
+						}							
+					},
+					onclick: function() {
+						// 그리드 추가/삭제
+						myGrid.setEditor(this.item, this.index);
+					},
+					ondblclick: function() {
 						//http://jdoc.axisj.com/document/AXModal.html
 						var axModal = new AXModal();
 						axModal.setConfig({
@@ -88,19 +117,29 @@ var fnObj = {
 							onclose: function(){
 								alert("good bye!!");
 							}						
-						});
-						
-							console.log(this.item);
+						});						
+						console.log(this.item);
 						axModal.open({
 							url: "/ax/order/orderDetail",
 							pars: ("seq="+ this.item.seq).queryToObject(),
 							method: "get",
 							name:"myModal",
 							options:"width=600,height=400,resizable=yes"
-						});
-						//toast.push({type:"Warning", body: Object.toJSON(this.item)});
-						//toast.push({type:"Caution", body: Object.toJSON(this.item)});
+						}); 	
+					},
+					oncheck: function() {
+						// 사용 가능한 변수
+						//this.itemIndex;
+						//this.target;
+						//this.checked;
+						//this.r;
+						//this.c;
+						//this.list;
+						//this.item;
+						trace(this.checked);
 					}
+						//toast.push({type:"Warning", body: Object.toJSON(this.item)});
+						//toast.push({type:"Caution", body: Object.toJSON(this.item)});				
 				},
 				onchangeScroll: function() {
 					console.log("1");
@@ -172,5 +211,12 @@ function fnDetail(index){
 </div>	
 <br/>
 <div id="AXGridTarget" style="width:100%;height:500px;"></div>
+<!-- view-source:http://dev.axisj.com/samples/AXGrid/passive.html -->
+<div style="padding:10px 0px;">
+	<input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.appendGrid();" />
+	<input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.removeList();" />
+	<input type="button" value="삭제취소" class="AXButton Red" onclick="fnObj.restoreList();" />
+	<input type="button" value="새로고침" class="AXButton Red" onclick="fnObj.reloadList();" />
+</div>	
 </body>
 </html>
