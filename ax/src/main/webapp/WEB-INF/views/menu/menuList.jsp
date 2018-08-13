@@ -30,61 +30,42 @@ var fnObj = {
 				targetID: "AXGridTarget",
 				passiveMode: true,
 				colGroup: [
-					{key:"seq", label:"CHECK", width: widthStr, align: alignStr, formatter:"checkbox", displayLabel:true, checked:function() { // displayLabel:true => 헤드란에 체크박스를 표시할지 여부
-						//return this.index, this.item, this.list, (this.index %2 == 0);
-						return false;
-					}},
-					{key:"status", label:"상태", width: widthStr, align: alignStr, formatter:function(){
-						if( this.item._CUD == "C" ){
-							return "신규";
-						} else if( this.item._CUD == "U" ){
-							return "수정";
-						} else if( this.item._CUD == "D" ){
-							return "삭제";
+					{key:"status", label:"상태", width: widthStr, align: alignStr, 
+						formatter:function(){
+							if( this.item._CUD == "C" ){
+								return "신규";
+							} else if( this.item._CUD == "U" ){
+								return "수정";
+							} else if( this.item._CUD == "D" ){
+								return "삭제";
+							}
 						}
-					}},
-					{key:"seq", label:"고유번호", width: widthStr, align: alignStr},
-					{key:"p_baseprice_sel", label:"지역", width: widthStr, align: alignStr, formatter:function() {
-						var str =  "<select id=\"area\" name=\"area\">";
-						    str += "  <option value=\"\">선택</option>";
-						    str += "  <option value=\"1\">서울</option>";
-						    str += "  <option value=\"2\">경기도</option>";
-						    str += "</select>";
-						return str;
-					}},
-					{key:"p_baseprice", label:"원가", width: widthStr, align: alignStr, formatter:function() {
-						return "<input type=\"text\" id=\"baseprice\" name=\"baseprice\" value=\""+ this.item.p_baseprice.money() +"\" style=\"width:100px;\"/>";
-					}},
-					{key:"createdTS", label:"주문일", width: widthStr, align: alignStr, formatter:function() {
-						return "<input type=\"text\" name=\"\" id=\"AXdate_"+ this.index +"\" class=\"AXInput W100 AXdate\" value=\""+ this.value +"\"/>";
-						
-						//return this.item.createdTS.substr(0,4) +"-"+ this.item.createdTS.substr(5,2) +"-"+ this.item.createdTS.substr(8,2);
-					}},
-					{key:"modifiedTS", label:"수정일", width: widthStr, align: alignStr },
-					{key:"p_product", label:"주문상품정보", width: widthStr, align: alignStr, formatter:function() {
-						return "<a href=\"javascript:fnDetail('"+ this.index +"');\">"+ this.item.p_product +"</a>";
-					}},
-					{key:"p_quantity", label:"수량", width: widthStr, align: alignStr, formatter:function(){
-						return this.item.p_quantity.number();	
-					}},
-					{key:"p_totalprice", label:"총판매금액", width: widthStr, align: "right", formatter:function(){
-						return this.item.p_totalprice.money() +" 원";	
-					}},
-					{key:"p_unit", label:"단위", width: widthStr, align: alignStr },
-					{key:"accumulationpoint", label:"포인트", width: widthStr, align: "right", formatter:"money" },
-					{key:"usepoint", label:"사용포인트", width: widthStr, align: "right", formatter:"money" },
-					{key:"usegiftamount", label:"기프트카드", width: widthStr, align: alignStr, formatter:function(){
-						return "<input type=\"text\" id=\"usegiftamount\" name=\"usegiftamount\" value=\""+ (this.item.usegiftamount).number() +"\" style=\"width:100px;\"/>";
-					}},
-					{key:"coupondiscountamount", label:"쿠폰할인", width: widthStr, align: alignStr },
-					{key:"accumulationrate", label:"비율", width: widthStr, align: alignStr },
-					{key:"warehousestockquantity", label:"창고재고수량", width: widthStr, align: alignStr },
-					{key:"lgdamount", label:"데이콤수량", width: widthStr, align: alignStr },
-					{key:"originalquantity", label:"원주문수량", width: widthStr, align: alignStr },
-					{key:"saleyn", label:"할인", width: widthStr, align: alignStr },
-					{key:"p_info", label:"기타", width: widthStr, align: alignStr, onclick:function() {
-						//return toast.push({type:"Info", body: Object.toJSON(this.item.value)});
-					}}
+					},
+					{key:"pk", label:"수정/삭제", width: widthStr, align: alignStr, formatter:"checkbox", displayLabel:true, 
+						checked:function() { // displayLabel:true => 헤드란에 체크박스를 표시할지 여부
+							//return this.index, this.item, this.list, (this.index %2 == 0);
+							return false;
+						}
+					},
+					{key:"parentmenuid", label:"상위메뉴아이디", width: widthStr, align: alignStr},
+					{key:"menuid", label:"메뉴아이디", width: widthStr, align: alignStr},
+					{key:"menuname", label:"메뉴명", width: widthStr, align: alignStr},
+					{key:"displayYn", label:"전시여부", width: widthStr, align: alignStr, formatter:function() {
+						return this.item.displayYn == 1 ? "전시" : "비전시";
+						}
+					},
+					{key:"sortingindex", label:"정렬", width: widthStr, align: alignStr, 
+						formatter:function() {
+							return "<input type=\"number\" id=\"sortingindex\" name=\"sortingindex\" value=\""+ this.item.sortingindex +"\" style=\"width:100px;\"/>";
+						}
+					},
+					{key:"createTime", label:"생성일", width: widthStr, align: alignStr, 
+						formatter:function() {
+							return "<input type=\"text\" name=\"\" id=\"AXdate_"+ this.index +"\" class=\"AXInput W100 AXdate\" value=\""+ this.value +"\"/>";						
+							//return this.item.createdTS.substr(0,4) +"-"+ this.item.createdTS.substr(5,2) +"-"+ this.item.createdTS.substr(8,2);
+						}
+					},
+					{key:"modifyTime", label:"수정일", width: widthStr, align: alignStr }
 				],
 				body: {
 					addClass: function() {
@@ -148,37 +129,34 @@ var fnObj = {
 					rows: [
 						[
 							{colSeq:0, align:"center", valign:"middle", formatter: function() {
-								return "";
+								return ""; // 상태 열
 								}
 							},
-							{key: "status", align:"center", valign:"middle", form:{
+							{key: "status", align:"center", valign:"middle", form:{								
 								type:"hidden", value:"itemValue"}
 							},
-							{colSeq:2, align:"center", valign:"middle", form:{
-								type:"hidden", value:"itemValue"}
-							},
-							{colseq:3, align:"center", valign:"top", form:{
+							{colseq:2, align:"center", valign:"top", form:{
 								type:"text", value:function() {
 									console.log("this.value::"+ this.value);
 									//return this.value.dec();
 									return this.value;
 								},
 								validate:function() {
-									if( this.value == ""){
-										alert("필수 입력값 입니다");
+									if( this.value == "" || this.value == "undefined"){
+										alert("상위메뉴를 선택해 주세요.");
 										return false;
 									}
 								}
 							},
 							AXBind:{type:"selector", config:{
 								apendable: true,
-								ajaxUrl:"selectorData.txt",
+								ajaxUrl:"parentMenuList",
 								ajaxPars:"",
 								onChange: function() {
 									if( this.selectedOption){
 										myGrid.setEditorForm({
-											key:"Writer",
-											position:[0,4], // editor rows 적용할 대상의 배열 포지션(다르면 적용되지 않음)
+											key:"parentmenuid",
+											position:[0,2], // editor rows 적용할 대상의 배열 포지션(다르면 적용되지 않음)
 											value: this.selectedOption.optionText
 										});
 									}
@@ -186,38 +164,44 @@ var fnObj = {
 							}
 							}								
 							},
-							{colSeq:4, align:"left", valign:"top", form:{
+							{colSeq:3, align:"left", valign:"top", form:{
 								type:"text",
 								value:"itemValue"}
 							},
-							{colSeq:5, align:"left", valign:"top", form:{
+							{colSeq:4, align:"left", valign:"top", form:{
 								type:"text",
 								value:"itemValue"},
-								AXBind:{type:"date"}
+								
 							},
+							{colSeq:5, align:"left", valign:"top", form:{
+								type:"select", value:"itemText",
+								isspace:true, isspaceTitle:"선택",
+								options:[
+									{value:1, text:"비전시"},
+									{value:2, text:"전시"}
+							],
+							onChange: function(){
+								console.log("text:"+ this.value);
+								//AXUtil.alert(this);
+							}
+							}
+							}, 
 							{colSeq:6, align:"left", valign:"top", form:{
-								type:"text",
-								value:"itemValue"} ,
-								AXBind:{type:"money"}
-							},
-							{colSeq:7, align:"left", valign:"top", form:{
 								type:"text",
 								value:"itemValue"},
 								AXBind:{type:"number", config:{min:1, max:100}}
 							},
-							{colSeq:8, align:"right", valign:"top"},			
-							{colSeq:9, align:"left", valign:"top", form:{
-								type:"select", value:"itemText",
-								isspace:true, isspaceTitle:"ABCD",
-								options:[
-									{value:1, optionText:"TEST"},
-									{value:2, text:"text"}
-							],
-							onChange: function(){
-								AXUtil.alert(this);
+							{colSeq:7, align:"right", valign:"top", form:{
+								type:"text", 
+								value:"itemValue"},
+								AXBind: {type:"date"}
+							},	
+							{colSeq:8, align:"right", valign:"top", form:{
+								type:"text",
+								value:"itemValue"},
+								AXBind: {type: "date"}
 							}
-						}
-					}
+							/* */
 					]
 				],
 				//request:{ajaxUrl:"saveGrid.asp", ajaxPars:"param1=1&param2=2"},
@@ -232,6 +216,7 @@ var fnObj = {
 						{
 						userType:1, label:"추가하기", className:"plus", onclick:function() {
 							myGrid.appendList(item);
+							console.log("1");
 							// myGrid.appendList(item, index);
 							/*
 								var removeList = [];
@@ -266,13 +251,13 @@ var fnObj = {
 			});
 			// DATA SET
 			var list = [			
-				<c:forEach items="${orderList}" var="item" varStatus="idx">				
-				{seq: '${item.seq}',p_baseprice:'${item.p_baseprice}', p_entrynumber:'${item.p_entrynumber}',p_info:'${item.p_info}', createdTS: '${item.createdTS}', modifiedTS:'${item.modifiedTS}', p_product:'${item.p_product}', p_quantity:'${item.p_quantity}', p_totalprice:'${item.p_totalprice}', p_unit:'${item.p_unit}', accumulationpoint:'${item.accumulationpoint}',usepoint:'${item.usepoint}', usegiftamount:'${item.usegiftamount}', coupondiscountamount: '${item.coupondiscountamount}', accumulationrate: '${item.accumulationrate}',warehousestockquantity:'${item.warehousestockquantity}', lgdamount:'${item.lgdamount}', originalquantity: '${item.originalquantity}',saleyn: '${item.saleyn}'},				
+				<c:forEach items="${list}" var="item" varStatus="idx">				
+				{pk: '${item.pk}', parentmenuid: '${item.parentmenuid}', menuid:'${item.menuid}', menuname:'${item.menuname}',displayYn:'${item.displayYn}', sortingIndex: '${item.sortingIndex}', createTime: '${item.createTime}', modifyTime:'${item.modifyTime}'},				
 				</c:forEach>
 			];			
 			myGrid.setList(list);
 		},
-		appendGrid: function(index){
+		appendGrid: function(index){ // 추가
 			var item = {};
 			if(index) {
 				myGrid.appendList(item, index);
@@ -280,7 +265,7 @@ var fnObj = {
 				myGrid.appendList(item);
 			}
 		},
-		removeList: function(){
+		removeList: function(){	// 삭제
 			var checkedList = myGrid.getCheckedListWithIndex(0); // 0: colSeq
 			if(checkedList.length == 0){
 				alert("선택된 목록이 없습니다. 삭제하려는 목록을 체크하세요");
@@ -289,7 +274,7 @@ var fnObj = {
 			trace(checkedList);
 			myGrid.removeListIndex(checkedList);
 		},
-		restoreList: function() {
+		restoreList: function() { // 삭제최소
 			var checkedList = myGrid.getCheckedList(0);
 			if( checkedList.length == 0){
 				alert("선택된 목록이 없습니다.");
@@ -303,7 +288,12 @@ var fnObj = {
 			
 			trace(removeList);
 			myGrid.restoreList(removeList);
+		},
+		reloadList: function() { // 새로고침
+			console.log("새로고침");
+			myGrid.reloadList();
 		}
+		
 };
 			
 				/* onchangeScroll: function() {
@@ -358,7 +348,7 @@ function fnDetail(index){
 }
 </script>
 </head>
-<div id="pageTitle"><h1>주문 목록</h1></div>
+<div id="pageTitle"><h1>메뉴 목록</h1></div>
 <div>
 	날짜 검색: 
 	<input type="text" name="sDate" id="AXJ_dateAddS" value="" class="AXInput W100" />

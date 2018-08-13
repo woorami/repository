@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.menumanage">
+
+    <select id="menuList" resultType="com.hooni0131.ax.dto.MenuDTO" parameterType="java.util.HashMap">
+    <![CDATA[
+        SELECT PK
+              ,PARENTMENUID
+              ,MENUID
+              ,MENUNAME
+              ,DESCRIPTION
+              ,URL
+              ,DEPTH
+              ,DISPLAYYN
+              ,SORTINGINDEX
+              ,CREATETIME
+              ,MODIFYTIME         
+          FROM MENU
+    ]]>          
+    </select>
+    
+    <select id="parentMenuList" resultType="java.lang.String" parameterType="java.util.HashMap">
+    <![CDATA[
+        SELECT PARENTMENUID
+          FROM MENU
+      GROUP BY PARENTMENUID
+    ]]>
+    </select>
+
+
+   
+</mapper>
