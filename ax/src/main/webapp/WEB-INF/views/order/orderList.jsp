@@ -373,6 +373,8 @@ function fnDetail(index){
 	<input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.removeList();" />
 	<input type="button" value="삭제취소" class="AXButton Red" onclick="fnObj.restoreList();" />
 	<input type="button" value="새로고침" class="AXButton Red" onclick="fnObj.reloadList();" />
+	
+	
 </div>	
 </body>
 </html>

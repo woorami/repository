@@ -13,7 +13,7 @@
               ,URL
               ,DEPTH
               ,DISPLAYYN
-              ,SORTINGINDEX
+              ,sortingindex
               ,CREATETIME
               ,MODIFYTIME         
           FROM MENU

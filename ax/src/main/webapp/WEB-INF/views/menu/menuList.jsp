@@ -6,11 +6,12 @@
 <meta charset="EUC-KR">
 <title>Insert title here</title>
 </head>
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/arongi/AXJ.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/bulldog/AXJ.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/arongi/AXJ.min.css"> -->
+<link rel="stylesheet" type="text/css" href="/ax/resources/arongi/AXJ.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/bulldog/AXJ.min.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/cocker/AXJ.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/flybasket/AXJ.min.css">
-<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/kakao/AXJ.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/flybasket/AXJ.min.css"> -->
+<!-- <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/axisj/axisj/master/ui/kakao/AXJ.min.css"> -->
 
 <script type="text/javascript" src="/ax/resources/js/jquery.min.js"></script>
 <script type="text/javascript" src="/ax/resources/js/ax/AXJ.js"></script>
@@ -28,23 +29,27 @@ var fnObj = {
 		pageStart: function() {			
 			myGrid.setConfig({
 				targetID: "AXGridTarget",
+				//height:"auto", // auto: grid 데이터에 맞게 자동 조정
+				height:"300",
+				fitToWidth:false,// 너비에 자동 맞춤
 				passiveMode: true,
 				colGroup: [
+					{key: "pk", label: "번호", width: "50", align: "center", formatter: "checkbox",displayLabel:false // 헤더에 타이틀 노출(true),비노출(false: checkbox 노출)
+						,checked:function() {
+							//return this.index, this.item, this.list, (this.index %2 == 0);
+							console.log("result:"+ this.item.pk);
+							return false;
+						}
+					},
 					{key:"status", label:"상태", width: widthStr, align: alignStr, 
 						formatter:function(){
 							if( this.item._CUD == "C" ){
-								return "신규";
+								return "N";
 							} else if( this.item._CUD == "U" ){
-								return "수정";
+								return "U";
 							} else if( this.item._CUD == "D" ){
-								return "삭제";
+								return "D";
 							}
-						}
-					},
-					{key:"pk", label:"수정/삭제", width: widthStr, align: alignStr, formatter:"checkbox", displayLabel:true, 
-						checked:function() { // displayLabel:true => 헤드란에 체크박스를 표시할지 여부
-							//return this.index, this.item, this.list, (this.index %2 == 0);
-							return false;
 						}
 					},
 					{key:"parentmenuid", label:"상위메뉴아이디", width: widthStr, align: alignStr},
@@ -54,17 +59,12 @@ var fnObj = {
 						return this.item.displayYn == 1 ? "전시" : "비전시";
 						}
 					},
-					{key:"sortingindex", label:"정렬", width: widthStr, align: alignStr, 
+					{key:"sortingIndex", label:"정렬", width: widthStr, align: alignStr, 
 						formatter:function() {
-							return "<input type=\"number\" id=\"sortingindex\" name=\"sortingindex\" value=\""+ this.item.sortingindex +"\" style=\"width:100px;\"/>";
+							return "<input type=\"number\" id=\"sortingindex\" name=\"sortingindex\" value=\""+ this.item.sortingIndex.number() +"\" style=\"width:100px;\"/>";
 						}
 					},
-					{key:"createTime", label:"생성일", width: widthStr, align: alignStr, 
-						formatter:function() {
-							return "<input type=\"text\" name=\"\" id=\"AXdate_"+ this.index +"\" class=\"AXInput W100 AXdate\" value=\""+ this.value +"\"/>";						
-							//return this.item.createdTS.substr(0,4) +"-"+ this.item.createdTS.substr(5,2) +"-"+ this.item.createdTS.substr(8,2);
-						}
-					},
+					{key:"createTime", label:"생성일", width: widthStr, align: alignStr },
 					{key:"modifyTime", label:"수정일", width: widthStr, align: alignStr }
 				],
 				body: {
@@ -76,11 +76,16 @@ var fnObj = {
 						} else if( this.item._CUD == "U" ){
 							return "green";
 						} else {
-							return "";
-						}							
+							if( this.index %2 == 0){
+								return "blue";
+							} else {
+								return "white";
+							}
+						}
 					},
 					onclick: function() {
 						// 그리드 추가/삭제
+						console.log("onclick :"+ this.item +", "+ this.index);
 						myGrid.setEditor(this.item, this.index);
 					},
 					ondblclick: function() {
@@ -215,11 +220,10 @@ var fnObj = {
 					menu:[
 						{
 						userType:1, label:"추가하기", className:"plus", onclick:function() {
-							myGrid.appendList(item);
-							console.log("1");
-							// myGrid.appendList(item, index);
+							myGrid.appendList(null);							
+							// myGrid.appendList(item, index);							
 							/*
-								var removeList = [];
+						    var removeList = [];
 							removeList.push({no: this.seneObj.item.no});
 							myGrid.removeList(removeList); // 전달한 개체와 비교하여 일치하는 대사을 제거합니다. 이때 고유한 값이 아닌 항목을 전달 할 때에는 에러가 발생할 수 있습니다.
 							
@@ -259,19 +263,22 @@ var fnObj = {
 		},
 		appendGrid: function(index){ // 추가
 			var item = {};
-			if(index) {
+			
+			if(index == "last") {	// 마지막 그리드에 추가하기
+				myGrid.appendList(item, myGrid.list.length);
+			} else if( typeof index != "undefined"){	// 지정된 위치에 추가하기
 				myGrid.appendList(item, index);
-			} else {
+			} else {	// 첫번째 그리드에 추가하기
 				myGrid.appendList(item);
 			}
 		},
 		removeList: function(){	// 삭제
 			var checkedList = myGrid.getCheckedListWithIndex(0); // 0: colSeq
 			if(checkedList.length == 0){
-				alert("선택된 목록이 없습니다. 삭제하려는 목록을 체크하세요");
+				alert("선택된 목록이 없습니다. "+ "\n"+ "삭제하려는 목록을 체크하세요");
 				return;
 			}
-			trace(checkedList);
+			trace("removeList.checkedList:"+ Object.toJSON(checkedList));
 			myGrid.removeListIndex(checkedList);
 		},
 		restoreList: function() { // 삭제최소
@@ -356,13 +363,19 @@ function fnDetail(index){
 	<input type="text" name="eDate" id="AXJ_dateAddE" value="" class="AXInput W100" />
 </div>	
 <br/>
-<div id="AXGridTarget" style="width:100%;height:500px;"></div>
+<div id="AXGridTarget" style="width:100%;height:300px;"></div>
 <!-- view-source:http://dev.axisj.com/samples/AXGrid/passive.html -->
 <div style="padding:10px 0px;">
-	<input type="button" value="추가하기" class="AXButton Red" onclick="fnObj.appendGrid();" />
+	<input type="button" value="추가하기(첫번째)" class="AXButton Red" onclick="fnObj.appendGrid();" /> <!-- 첫번째 추가하기 -->
+	<!-- <input type="button" value="추가하기(첫번째)" class="AXButton Red" onclick="fnObj.appendGrid('100');" /> 101번째 추가하기 -->
+	<input type="button" value="추가하기(마지막)" class="AXButton Red" onclick="fnObj.appendGrid('last');" />
 	<input type="button" value="삭제하기" class="AXButton Red" onclick="fnObj.removeList();" />
 	<input type="button" value="삭제취소" class="AXButton Red" onclick="fnObj.restoreList();" />
 	<input type="button" value="새로고침" class="AXButton Red" onclick="fnObj.reloadList();" />
+</div>	
+<div style="padding-right:10px;">
+	<input type="button" value="높이(300)" class="AXButton Grey" onclick="myGrid.setHeight(300);" />
+	<input type="button" value="높이(600)" class="AXButton Grey" onclick="myGrid.setHeight(600);" />
 </div>	
 </body>
 </html>
